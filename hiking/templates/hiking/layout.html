@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}Penny’s Pet Rescue{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'hiking/css/hannah.css' %}" />
+    <link rel="stylesheet" href="{% static 'hiking/css/master.css' %}" />
+    <link rel="stylesheet" href="{% static 'hiking/css/zaara.css' %}" />
+
+    {% block extra_head %}{% endblock %}
+  </head>
+
+  <body>
+    <header class="navbar">
+      <nav>
+        <a href="{% url 'hiking:index' %}">Home</a>
+        <a href="{% url 'hiking:pet_list' %}">Browse Pets</a>
+          <a href="{% url 'hiking:pet_list' %}">Search</a>
+
+
+        {% if user.is_authenticated %}
+        <span style="margin-left: 20px">Hi, {{ user.username }}!</span>
+        <a href="{% url 'hiking:my_applications' %}">My Applications</a>
+        <a href="{% url 'hiking:user_profile' %}">Profile</a>
+<a href="{% url 'hiking:pet_list' %}">Adoption Application</a>
+
+
+        
+
+        <a href="{% url 'hiking:user_logout' %}">Logout</a>
+
+        {% if user.is_staff %}
+        <a href="{% url 'hiking:add_pet_listing' %}">Add Pet</a>
+        <a href="{% url 'hiking:review_applications' %}">Review Applications</a>
+        <a href="{% url 'hiking:assign_volunteers' %}">Assign Roles</a>
+        {% endif %} {% else %}
+        <a href="{% url 'hiking:user_login' %}">Login</a>
+        <a href="{% url 'hiking:user_registration' %}">Register</a>
+        {% endif %}
+      </nav>
+    </header>
+
+    <main class="body-content">
+      {% if messages %}
+      <ul class="messages">
+        {% for m in messages %}
+        <li>{{ m }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <hr />
+      <p>&copy; {% now "Y" %} Penny’s Pet Rescue</p>
+    </footer>
+
+    <script src="{% static 'hiking/js/hannah.js' %}" defer></script>
+    <script src="{% static 'hiking/js/hannah2.js' %}" defer></script>
+
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

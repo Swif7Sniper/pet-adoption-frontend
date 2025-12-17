@@ -1,0 +1,209 @@
+{% extends "hiking/layout.html" %}
+{% load static %}
+{% block title %}Adoption Application Form{% endblock %}
+
+{% block content %}
+<style>
+  .error { color: red; font-size: .95rem; }
+  fieldset { margin-bottom: 1rem; }
+  .inline { display:inline-block; min-width:12rem; }
+</style>
+
+<h1 class="form_title">ADOPTION APPLICATION FORM</h1>
+
+<form
+  id="Adoptionform"
+  method="post"
+  action="{% url 'hiking:apply_for_adoption' animal_id=animal.id %}"
+  class="pet_adoption_form"
+  onsubmit="return adoptionapplicationform(this)"
+>
+  {% csrf_token %}
+
+  <fieldset class="fieldset">
+    <legend class="legend">Adopter details</legend>
+
+    <label class="inline" for="fname">First name **</label>
+    <input type="text" id="fname" name="fname" placeholder="Enter your name" onblur="adoptionapplicationform(this.form)" />
+    <span id="errorfirstname" class="error"></span><br />
+
+    <label class="inline" for="lname">Last name **</label>
+    <input type="text" id="lname" name="lname" placeholder="Enter your last name" onblur="adoptionapplicationform(this.form)" />
+    <span id="errorlastname" class="error"></span><br />
+
+    <label class="inline" for="email">Email **</label>
+    <input type="email" id="email" name="email" placeholder="you@example.com" onblur="adoptionapplicationform(this.form)" />
+    <span id="erroremail" class="error"></span><br />
+
+    <label class="inline" for="dob">Date of Birth **</label>
+    <input type="date" id="dob" name="dob" onblur="adoptionapplicationform(this.form)" />
+    <span id="errordob" class="error"></span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Selected Pet</legend>
+
+    <label class="inline" for="petselection">Pet **</label>
+    <input
+      type="text"
+      id="petselection"
+      name="petselection"
+      value="{{ animal.species }}{% if animal.breed %} ({{ animal.breed }}){% endif %}, {{ animal.name }}"
+      readonly
+    />
+    <span id="errorpetselection" class="error"></span><br />
+
+    <label class="inline" for="pet_id">Pet ID **</label>
+    <input type="text" id="pet_id" name="pet_id" value="{{ animal.id }}" readonly />
+    <span id="errorpetid" class="error"></span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Home ownership status **</legend>
+    <select id="home_ownership" name="home_ownership" onchange="adoptionapplicationform(this.form)">
+      <option value="">-- choose --</option>
+      <option value="own">own</option>
+      <option value="rent">rent</option>
+    </select>
+    <span id="errorhome_ownership" class="error"></span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Type of dwelling **</legend>
+    <select id="dwelling" name="dwelling" onchange="adoptionapplicationform(this.form)">
+      <option value="">-- choose --</option>
+      <option value="house">house</option>
+      <option value="unit">unit</option>
+      <option value="villa">villa</option>
+    </select>
+    <span id="errordwelling" class="error"></span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Yard availability/size **</legend>
+    <label class="inline" for="yard">Yard available?</label>
+    <select id="yard" name="yard" onchange="adoptionapplicationform(this.form)">
+      <option value="">-- choose --</option>
+      <option value="yes">yes</option>
+      <option value="no">no</option>
+    </select>
+    <span id="erroryard" class="error"></span><br />
+
+    <label class="inline" for="yard_size">If yes, size</label>
+    <select id="yard_size" name="yard_size" onchange="adoptionapplicationform(this.form)">
+      <option value="">-- choose --</option>
+      <option value="small">small</option>
+      <option value="medium">medium</option>
+      <option value="large">large</option>
+      <option value="extra-large">extra-large</option>
+    </select>
+    <span id="erroryardsize" class="error"></span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Other pets at home? **</legend>
+    <select id="other_pets" name="other_pets" onchange="adoptionapplicationform(this.form)">
+      <option value="">-- choose --</option>
+      <option value="none">none</option>
+      <option value="dogs">dogs</option>
+      <option value="cats">cats</option>
+      <option value="rabbits">rabbits</option>
+      <option value="birds">birds</option>
+      <option value="horses">horses</option>
+    </select>
+    <span id="errorotherpets" class="error"></span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Reason for adoption **</legend>
+    <p class="hint">May contain letters, spaces, hyphen (-), period (.), comma (,).</p>
+
+    <label for="{{ form.reason.id_for_label }}">Reason for adoption **</label>
+    {{ form.reason }}
+    {% if form.reason.errors %}
+      <div class="error">{{ form.reason.errors|striptags }}</div>
+    {% endif %}
+    <span id="errorreason" class="error"></span>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend>PET DETAILS (optional)</legend>
+    <label class="inline" for="petname">Pet name</label>
+    <input type="text" id="petname" name="petname" onblur="adoptionapplicationform(this.form)" />
+    <span id="errorpetname" class="error"></span><br />
+
+    <label class="inline" for="petAge">Pet age</label>
+    <input type="number" id="petAge" name="petAge" min="1" max="20" />
+    <span id="errorpetAge" class="error"></span><br />
+
+    <span>Pet gender</span>
+    <label><input type="radio" name="petGender" value="male" /> Male</label>
+    <label><input type="radio" name="petGender" value="female" /> Female</label>
+    <span id="errorpetGender" class="error"></span>
+  </fieldset>
+
+  <div>
+    <button type="reset">Reset Form</button>
+    <button type="submit">Submit Application</button>
+  </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+ <script>
+  function error(id, msg){
+    var el = document.getElementById(id);
+    if (el) el.textContent = msg || "";
+  }
+
+  function adoptionapplicationform(formx) {
+    // clear all known error spans
+    ["errorfirstname","errorlastname","erroremail","errordob",
+     "errorpetselection","errorpetid","errorhome_ownership","errordwelling",
+     "erroryard","erroryardsize","errorotherpets","errorchildren",
+     "errorreason","errorpetname","errorpetAge","errorpetGender"
+    ].forEach(id => error(id, ""));
+
+    // helper to safely get a field by name
+    const get = (name) => formx.elements.namedItem(name);
+
+     var reasonEl = get("reason");
+    var reason = (reasonEl && reasonEl.value || "").trim();
+    if (!reason) { error("errorreason","Reason is required."); return false; }
+    if (!/^[A-Za-z ,.\-]+$/.test(reason)) {
+      error("errorreason","Only letters, spaces, hyphen (-), period (.), comma (,).");
+      return false;
+    }
+
+     var fname = get("fname"); if (fname && !fname.value.trim()) { error("errorfirstname","First name is required."); return false; }
+    var lname = get("lname"); if (lname && !lname.value.trim()) { error("errorlastname","Last name is required."); return false; }
+    var email = get("email");
+    if (email) {
+      var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((email.value || "").trim());
+      if (!ok) { error("erroremail","Enter a valid email."); return false; }
+    }
+    var dob = get("dob"); if (dob && !dob.value) { error("errordob","Date of birth is required."); return false; }
+
+    var petSel = get("petselection"); if (petSel && !petSel.value.trim()) { error("errorpetselection","Please select a pet."); return false; }
+    var petId = get("pet_id"); if (petId && !petId.value.trim()) { error("errorpetid","Pet ID is required."); return false; }
+
+    var own = get("home_ownership"); if (own && !own.value) { error("errorhome_ownership","Choose own or rent."); return false; }
+    var dwell = get("dwelling"); if (dwell && !dwell.value) { error("errordwelling","Choose house, unit or villa."); return false; }
+    var yard = get("yard"); if (yard && !yard.value) { error("erroryard","Choose yes or no."); return false; }
+    var ysize = get("yard_size"); if (yard && yard.value === "yes" && ysize && !ysize.value) { error("erroryardsize","Choose a yard size."); return false; }
+    var other = get("other_pets"); if (other && !other.value) { error("errorotherpets","Choose one option."); return false; }
+    var kids = get("children"); if (kids && !kids.value) { error("errorchildren","Choose one option."); return false; }
+
+    var petname = get("petname");
+    if (petname && petname.value && !/^[A-Za-z \-]+$/.test(petname.value)) { error("errorpetname","Pet name should be letters/spaces/hyphen."); return false; }
+    var petAge = get("petAge");
+    if (petAge && petAge.value && (+petAge.value < 1 || +petAge.value > 20)) { error("errorpetAge","Pet age must be 1–20."); return false; }
+    var petGenderM = formx.elements.namedItem("petGender");
+     if ((petname && petname.value) || (petAge && petAge.value)) {
+      if (!formx.petGender.value) { error("errorpetGender","Select pet gender."); return false; }
+    }
+
+    return true; // allow submit
+  }
+</script>
+{% endblock %}

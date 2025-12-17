@@ -1,0 +1,104 @@
+{% extends "hiking/layout.html" %}
+{% load static %}
+
+{% block title %}Pet Search{% endblock %}
+
+{% block content %}
+  <header>
+    <h1>Browse Pets</h1>
+    <hr>
+  </header>
+
+  <main>
+    <h2>Find Your Perfect Pet!</h2>
+    <form id="petSearchForm" method="get" novalidate>
+      
+      <label for="species">Species:</label>
+      <select id="species" name="species">
+        <option value="">Select</option>
+        <option value="dog">Dog</option>
+        <option value="cat">Cat</option>
+        <option value="bird">Bird</option>
+        <option value="rabbit">Rabbit</option>
+        <option value="guinea pig">Guinea Pig</option>
+        <option value="bearded dragon">Bearded Dragon</option>
+        <option value="snake">Snake</option>
+        <option value="other">Other</option>
+      </select>
+      <div id="speciesError" class="error"></div>
+
+      <label for="age">Age Range:</label>
+      <select id="age" name="age">
+        <option value="">Select</option>
+        <option value="baby">Baby (0–8 weeks)</option>
+        <option value="juvenile">Juvenile (8 weeks–6 months)</option>
+        <option value="young adult">Young Adult (6 months–1 year)</option>
+        <option value="adult">Adult (1–7 years)</option>
+        <option value="senior">Senior (7+ years)</option>
+      </select>
+      <div id="ageError" class="error"></div>
+
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender">
+        <option value="">Select</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <div id="genderError" class="error"></div>
+
+      <button type="submit">Search</button>
+    </form>
+
+    <hr style="margin: 1.25rem 0;">
+
+    <h2>Available Pets</h2>
+    {% if animals %}
+      <ul>
+        {% for animal in animals %}
+          <li style="margin-bottom:1rem; list-style: none; border: 1px solid #eee; padding: .75rem; border-radius: .5rem;">
+            <strong>{{ animal.name }}</strong> — {{ animal.species }}
+            {% if animal.breed %} ({{ animal.breed }}){% endif %}
+            <br>Age: {{ animal.age }} | Gender: {{ animal.get_sex_display|default:animal.sex }}
+            {% if animal.suburb %}<br>Location: {{ animal.suburb }}, {{ animal.state }}{% endif %}
+            {% if animal.adoption_fee %}<br>Fee: ${{ animal.adoption_fee }}{% endif %}
+            <br>
+            <a href="{% url 'hiking:apply_for_adoption' animal.id %}" class="btn">Apply for this pet</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No pets available right now.</p>
+    {% endif %}
+  </main>
+
+  <script>
+    const form = document.getElementById('petSearchForm');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); // stop form from submitting first
+      let valid = true;
+
+      document.getElementById('speciesError').innerText = '';
+      document.getElementById('ageError').innerText = '';
+      document.getElementById('genderError').innerText = '';
+
+      if (document.getElementById('species').value === '') {
+        document.getElementById('speciesError').innerText = 'Please select a species';
+        valid = false;
+      }
+      if (document.getElementById('age').value === '') {
+        document.getElementById('ageError').innerText = 'Please select an age range';
+        valid = false;
+      }
+      if (document.getElementById('gender').value === '') {
+        document.getElementById('genderError').innerText = 'Please select a gender';
+        valid = false;
+      }
+
+      if (valid) {
+        alert('Pet search submitted successfully!');
+        form.reset();
+      }
+    });
+  </script>
+{% endblock %}

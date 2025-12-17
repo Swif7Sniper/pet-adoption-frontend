@@ -1,0 +1,205 @@
+/* --------------------------- GLOBAL ----------------------------- */
+:root {
+    font-family: Arial, sans-serif;
+    --pink: #d64aa0;
+    --pink-dark: #b23e86;
+    --text-dark: #333;
+    --border-radius: 8px;
+}
+
+/* Page container */
+body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #fff;
+    color: var(--text-dark);
+}
+
+/* Headings */
+h1 {
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+h2 {
+    color: #fff;
+    background-color: var(--pink);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    margin-top: 1.5rem;
+}
+
+/* --------------------------- NAV BAR ----------------------------- */
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: var(--pink);
+    padding: 10px;
+    gap: 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: var(--pink-dark);
+}
+
+
+/* --------------------------- FORMS ----------------------------- */
+.container {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Radio & checkboxes inline */
+input[type="radio"] + label,
+input[type="checkbox"] + label {
+    display: inline;
+    margin-left: 5px;
+    margin-right: 15px;
+    font-weight: normal;
+}
+
+/* Buttons */
+button,
+input[type="button"],
+input[type="submit"] {
+    background-color: var(--pink);
+    color: white;
+    border: none;
+    padding: 12px;
+    font-weight: bold;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover {
+    background-color: var(--pink-dark);
+}
+
+/* --------------------------- IMAGES ----------------------------- */
+img:not(#logoTop, #logoBot) {
+    display: block;
+    margin: auto;
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+}
+
+#logoTop,
+#logoBot {
+    display: block;
+    margin: auto;
+}
+
+/* --------------------------- NOTIFICATIONS ----------------------------- */
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+#validation-notifications {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 300px;
+}
+
+.notification {
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+
+.notification.success {
+    background-color: #4CAF50;
+}
+
+/* --------------------------- RESPONSIVE ----------------------------- */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+}
+
+/* --------------------------- Validation Page ----------------------------- */
+    form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+    label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+}
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+    input[type="radio"],
+    input[type="checkbox"] {
+    margin-right: 6px;
+}

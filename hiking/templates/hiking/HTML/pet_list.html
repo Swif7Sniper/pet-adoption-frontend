@@ -1,0 +1,31 @@
+{% extends "hiking/layout.html" %}
+{% block title %}Adoptable Pets{% endblock %}
+
+{% block content %}
+<h1>Adoptable Pets</h1>
+
+{% if pets %}
+  <ul style="list-style:none; padding:0;">
+    {% for p in pets %}
+      <li style="margin:0 0 1rem 0; border:1px solid #ddd; padding:.75rem; border-radius:.5rem;">
+        <a href="{% url 'hiking:pet_detail' p.id %}"><strong>{{ p.name }}</strong></a>
+        — {{ p.species }}{% if p.breed %} ({{ p.breed }}){% endif %}
+        {% if p.photo %}
+          <br><img src="{{ p.photo.url }}" alt="{{ p.name }}" style="max-width:160px; height:auto; margin-top:.5rem;">
+        {% endif %}
+        <div style="margin-top:.5rem;">
+          {% if user.is_authenticated and p.status == "AVAILABLE" %}
+<a href="{% url 'hiking:apply_for_adoption' animal_id=p.id %}">Apply to adopt</a>
+          {% elif p.status != "AVAILABLE" %}
+            <em>Not available ({{ p.status|title }})</em>
+          {% else %}
+            <a href="{% url 'hiking:user_login' %}">Log in to apply</a>
+          {% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No pets available right now.</p>
+{% endif %}
+{% endblock %}

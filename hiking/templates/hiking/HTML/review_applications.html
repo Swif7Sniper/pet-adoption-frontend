@@ -1,0 +1,52 @@
+{% extends "hiking/layout.html" %}
+{% block title %}Review Applications{% endblock %}
+
+{% block content %}
+<h1>Applications</h1>
+
+<form method="get" style="margin:.5rem 0 1rem;">
+  <input type="text" name="q" value="{{ q }}" placeholder="Search pet/species/user/email">
+  <select name="decision">
+    <option value="">Any</option>
+    <option value="PENDING"  {% if decision == "PENDING" %}selected{% endif %}>Pending</option>
+    <option value="APPROVED" {% if decision == "APPROVED" %}selected{% endif %}>Approved</option>
+    <option value="REJECTED" {% if decision == "REJECTED" %}selected{% endif %}>Rejected</option>
+  </select>
+  <button type="submit">Apply</button>
+  <a href="{% url 'hiking:review_applications' %}">Clear</a>
+</form>
+
+{% if applications %}
+<table border="2" cellpadding="7" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Submitted</th>
+      <th>Pet</th>
+      <th>Species</th>
+      <th>Applicant</th>
+      <th>Decision</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for a in applications %}
+    <tr>
+      <td>{{ a.application_date|date:"Y-m-d H:i" }}</td>
+      <td>{{ a.animal.name }}</td>
+      <td>{{ a.animal.species }}</td>
+      <td>{{ a.adopter.username }} ({{ a.adopter.email }})</td>
+      <td>{{ a.get_decision_display }}</td>
+      <td>
+        {% if a.decision == "PENDING" %}
+          <a href="{% url 'hiking:approve_application' a.id %}">Approve</a> |
+          <a href="{% url 'hiking:reject_application' a.id %}">Reject</a>
+        {% else %}—{% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <p>No applications found.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "hiking/layout.html" %}
+
+{% block title %}Apply to Adopt{% endblock %}
+
+{% block content %}
+<h1>Apply for {{ animal.name }}</h1>
+
+<form action="{% url 'hiking:apply_for_adoption' animal.id %}" method="post">
+  {% csrf_token %}
+
+  <fieldset>
+    <legend>Selected Pet</legend>
+    <p><strong>Name:</strong> {{ animal.name }}</p>
+    <p><strong>Species:</strong> {{ animal.species }}</p>
+    <p><strong>Age:</strong> {{ animal.age }}</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Your Reason</legend>
+    {{ form.application_reason }}
+  </fieldset>
+
+  <button type="submit">Submit Application</button>
+</form>
+{% endblock %}

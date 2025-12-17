@@ -1,0 +1,135 @@
+{% extends "hiking/layout.html" %}
+{% load static %}
+{% block title %}User Registration{% endblock %}
+
+{% block content %}
+<h1>Create an Account!</h1>
+
+<form id="userCreation" method="post" action="{% url 'hiking:user_registration' %}" novalidate>
+  {% csrf_token %}
+
+  <div class="form-step">
+    <h2>About You</h2>
+
+    <label for="username">Username (optional):</label>
+    <input type="text" id="username" name="username">
+
+    <label for="email">E-Mail Address:</label>
+    <input type="email" id="email" name="email" required>
+    <span id="emailError" class="error"></span>
+
+
+    <div class="passwordSection">
+      <label for="password1">Create a Password:</label>
+      <input type="password" id="password1" name="password1" required>
+      <span id="password1Error" class="error"></span>
+
+
+      <label for="password2">Confirm Your Password:</label>
+      <input type="password" id="password2" name="password2" required>
+      <span id="password2Error" class="error"></span>
+
+    </div>
+
+    <div class="step-buttons">
+      <button type="button" id="next" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <div class="form-step">
+    <h2>About Your Home</h2>
+
+    <label for="mobile">Phone Number:</label>
+    <input type="text" id="mobile" name="mobile">
+
+    <label for="address_line">Address Line:</label>
+    <input type="text" id="address_line" name="address_line" placeholder="e.g., 12 Willow St">
+
+    <label for="suburb">Suburb:</label>
+    <input type="text" id="suburb" name="suburb">
+
+    <label for="state">State:</label>
+    <select name="state" id="state">
+      <option value="" selected>--Select State--</option>
+      <option value="NSW">NSW</option><option value="ACT">ACT</option>
+      <option value="VIC">VIC</option><option value="QLD">QLD</option>
+      <option value="NT">NT</option><option value="SA">SA</option>
+      <option value="WA">WA</option><option value="TAS">TAS</option>
+    </select>
+
+    <label for="postcode">Postcode:</label>
+    <input type="text" id="postcode" name="postcode">
+    <span id="postcodeError" class="error"></span>
+
+
+    <div class="step-buttons">
+      <button type="submit" id="userRegoSubmit">Submit</button>
+      <button type="button" id="back" onclick="prevStep()">Back</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+ <script src="{% static 'hiking/JS/hannah.js' %}" defer> </script>
+  <script src="{% static 'hiking/JS/hannah2.js' %}"defer> </script>
+
+  <script>
+(function(){
+  const form = document.getElementById("userCreation");
+  const nextBtn = document.getElementById("next");
+
+  function setErr(id, msg){ const el = document.getElementById(id); if(el){ el.textContent = msg||""; } }
+  function clearAll(){
+    ["emailError","password1Error","password2Error","mobileError","postcodeError"].forEach(id=>setErr(id,""));
+  }
+
+  function validStep1(){
+    clearAll();
+    const email = document.getElementById("email").value.trim();
+    const p1    = document.getElementById("password1").value;
+    const p2    = document.getElementById("password2").value;
+    let ok = true;
+
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ setErr("emailError","Enter a valid email"); ok = false; }
+    if(p1.length < 8){ setErr("password1Error","Password must be at least 8 characters"); ok = false; }
+    if(p1 !== p2){ setErr("password2Error","Passwords do not match"); ok = false; }
+    return ok;
+  }
+
+  function validStep2(){
+     const mobile = (document.getElementById("mobile")||{}).value || "";
+    const pc     = (document.getElementById("postcode")||{}).value || "";
+    let ok = true;
+
+    if(mobile && !/^\d{8,12}$/.test(mobile)){ setErr("mobileError","Phone should be 8–12 digits"); ok = false; }
+    if(pc && !/^\d{4}$/.test(pc)){ setErr("postcodeError","Postcode must be 4 digits"); ok = false; }
+    return ok;
+  }
+
+   if(nextBtn){
+    nextBtn.addEventListener("click", function(e){
+      if(!validStep1()){ e.preventDefault(); e.stopImmediatePropagation(); return; }
+       if(typeof window.nextStep === "function"){ window.nextStep(); }
+    });
+  }
+
+   if(form){
+    form.addEventListener("submit", function(e){
+      clearAll();
+      if(!validStep1() || !validStep2()){
+        e.preventDefault();
+      }
+    });
+  }
+
+   ["email","password1","password2","mobile","postcode"].forEach(id=>{
+    const f = document.getElementById(id);
+    if(!f) return;
+    f.addEventListener("blur", ()=>{ clearAll(); validStep1(); validStep2(); });
+  });
+})();
+</script>
+
+  
+{% endblock %}

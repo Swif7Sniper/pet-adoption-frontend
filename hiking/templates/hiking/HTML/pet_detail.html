@@ -1,0 +1,30 @@
+
+{% extends "hiking/layout.html" %}
+{% block title %}{{ pet.name }}{% endblock %}
+
+{% block content %}
+<a href="{% url 'hiking:pet_list' %}">← Back to pets</a>
+<h1>{{ pet.name }} — {{ pet.species }}{% if pet.breed %} ({{ pet.breed }}){% endif %}</h1>
+
+{% if pet.photo %}<img src="{{ pet.photo.url }}" alt="{{ pet.name }}" style="max-width:420px; height:auto; margin: .5rem 0;">{% endif %}
+
+<p>
+  Status: <strong>{{ pet.status|title }}</strong><br>
+  {% if pet.age %}Age: {{ pet.age }}{% endif %}
+  {% if pet.sex %} | Sex: {{ pet.get_sex_display|default:pet.sex }}{% endif %}
+  {% if pet.suburb or pet.state %} | Location: {{ pet.suburb }} {{ pet.state }}{% endif %}
+</p>
+
+{% if pet.description %}<p>{{ pet.description }}</p>{% endif %}
+{% if pet.adoption_fee %}<p>Adoption fee: ${{ pet.adoption_fee }}</p>{% endif %}
+
+<div style="margin-top:1rem;">
+{% if user.is_authenticated and pet.status == "AVAILABLE" %}
+  <a href="{% url 'hiking:apply_for_adoption' animal_id=pet.id %}">Apply to adopt</a>
+{% elif pet.status != "AVAILABLE" %}
+  <em>Not available ({{ pet.status|title }})</em>
+{% else %}
+  <a href="{% url 'hiking:user_login' %}">Log in to apply</a>
+{% endif %}
+</div>
+{% endblock %}

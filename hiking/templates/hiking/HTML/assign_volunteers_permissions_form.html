@@ -1,0 +1,56 @@
+{% extends "hiking/layout.html" %}
+{% load static %}
+
+{% block title %}Assign Volunteer Permissions{% endblock %}
+
+{% block content %}
+<div class="permissions_form" style="background-color: blanchedalmond; padding: 1rem;">
+  <h1 class="title">ASSIGN VOLUNTEER PERMISSIONS FORM</h1>
+
+  <form id="volunteers_permissions_form" action="" method="post">
+    <fieldset>
+      <legend>Selected Volunteer</legend>
+
+      <label for="Volunteers">Volunteer:</label>
+      <select name="selctedvolunteers" id="Volunteers">
+        <option value="volunteer1">volunteer1</option>
+        <option value="volunteer2">volunteer2</option>
+        <option value="volunteer3">volunteer3</option>
+        <option value="volunteer4">volunteer4</option>
+      </select>
+    </fieldset>
+
+    <br>
+
+    <fieldset class="roleassignment">
+      <legend>Assign Roles</legend>
+      <p>Please assign the following roles</p>
+
+      <div>
+        <input
+          type="checkbox"
+          id="assigning_pets"
+          name="roles[]"
+          value="manage_pet_listings"
+        >
+        <label for="assigning_pets">Manage Pet Listings</label>
+      </div>
+
+      <div>
+        <input
+          type="checkbox"
+          id="managing_roles"
+          name="roles[]"
+          value="manage_applications"
+        >
+        <label for="managing_roles">Manage Applications</label>
+      </div>
+    </fieldset>
+
+    <div class="buttons" style="margin-top: 1rem;">
+      <input type="submit" value="Submit">
+      <input type="reset" value="Reset">
+    </div>
+  </form>
+</div>
+{% endblock %}

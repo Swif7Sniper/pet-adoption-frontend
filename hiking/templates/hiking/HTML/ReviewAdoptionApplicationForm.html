@@ -1,0 +1,184 @@
+{% extends "hiking/layout.html" %}
+{% load static %}
+
+{% block title %}Review Adoption Application Form{% endblock %}
+
+{% block content %}
+<h1>Review Adoption Application</h1>
+<p class="help-text">Please review the application details below.</p>
+
+<form action="{% url 'hiking:review_adoption' %}" method="post">
+
+  {% csrf_token %}
+  <fieldset>
+    <legend>Applicant Information</legend>
+    <div class="row">
+      <div>
+        <label for="applicant-name">Name</label>
+        <input type="text" id="applicant-name" name="applicant_name" value="{{ applicant.name }}" class="readonly"
+          readonly>
+      </div>
+      <div>
+        <label for="applicant-email">Email</label>
+        <input type="email" id="applicant-email" name="applicant_email" value="{{ applicant.email }}" class="readonly"
+          readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="applicant-phone">Phone Number</label>
+        <input type="text" id="applicant-phone" name="applicant_phone" value="{{ applicant.phone }}" class="readonly"
+          readonly>
+      </div>
+      <div>
+        <label for="application-date">Application Date</label>
+        <input type="text" id="application-date" name="application_date" value="{{ application.date }}" class="readonly"
+          readonly>
+      </div>
+      <div>
+        <label for="application-id">Application ID</label>
+        <input type="text" id="application-id" name="application_id" value="{{ application.id }}" class="readonly"
+          readonly>
+      </div>
+      <div>
+        <label for="applicant-home">Home Address</label>
+        <input type="text" id="applicant-home" name="applicant_home" value="{{ applicant.home }}" class="readonly"
+          readonly>
+      </div>
+      <div>
+        <label for="applicant-ownership-status">Ownership Status</label>
+        <input type="text" id="applicant-ownership-status" name="applicant_ownership_status"
+          value="{{ applicant.ownership_status }}" class="readonly" readonly>
+      </div>
+      <div>
+        <label for="applicant-income">Annual Income</label>
+        <input type="text" id="applicant-income" name="applicant_income" value="{{ applicant.income }}" class="readonly"
+          readonly>
+      </div>
+      <div>
+        <label for="applicant-dwelling">Dwelling Type</label>
+        <textarea id="applicant-dwelling" name="applicant_dwelling" class="readonly"
+          readonly>{{ applicant.dwelling }}</textarea>
+      </div>
+      <div>
+        <label for="applicant-yard-availability">Yard Availability</label>
+        <textarea id="applicant-yard-availability" name="applicant_yard_availability" class="readonly"
+          readonly>{{ applicant.yard_availability }}</textarea>
+      </div>
+      <div>
+        <label for="applicant-other-pets">Other Pets</label>
+        <textarea id="applicant-other-pets" name="applicant_other_pets" class="readonly"
+          readonly>{{ applicant.other_pets }}</textarea>
+      </div>
+      <div>
+        <label for="applicant-children">Children in Household</label>
+        <textarea id="applicant-children" name="applicant_children" class="readonly"
+          readonly>{{ applicant.children }}</textarea>
+      </div>
+      <div>
+        <label for="applicant-experience">Experience with Pets</label>
+        <textarea id="applicant-experience" name="applicant_experience" class="readonly"
+          readonly>{{ applicant.experience }}</textarea>
+      </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Pet Information</legend>
+    <div class="row">
+      <div>
+        <label for="pet-name">Pet Name</label>
+        <input type="text" id="pet-name" name="pet_name" value="{{ pet.name }}" class="readonly" readonly>
+      </div>
+      <div>
+        <label for="pet-type">Pet Type</label>
+        <input type="text" id="pet-type" name="pet_type" value="{{ pet.type }}" class="readonly" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="pet-breed">Breed</label>
+        <input type="text" id="pet-breed" name="pet_breed" value="{{ pet.breed }}" class="readonly" readonly>
+      </div>
+      <div>
+        <label for="pet-age">Age</label>
+        <input type="text" id="pet-age" name="pet_age" value="{{ pet.age }}" class="readonly" readonly>
+      </div>
+      <div>
+        <label for="pet-gender">Gender</label>
+        <input type="text" id="pet-gender" name="pet_gender" value="{{ pet.gender }}" class="readonly" readonly>
+      </div>
+      <div>
+        <label for="pet-location">Location</label>
+        <input type="text" id="pet-location" name="pet_location" value="{{ pet.location }}" class="readonly" readonly>
+      </div>
+      <div>
+        <label for="pet-fee">Adoption Fee ($)</label>
+        <input type="text" id="pet-fee" name="pet_fee" value="{{ pet.fee }}" class="readonly" readonly>
+      </div>
+      <div>
+        <label for="pet-description">Description</label>
+        <textarea id="pet-description" name="pet_description" class="readonly" readonly>{{ pet.description }}</textarea>
+        <div>
+          <label for="pet-image">Image URL</label>
+          <input type="text" id="pet-image" name="pet_image" value="{{ pet.image }}" class="readonly" readonly>
+        </div>
+        <div>
+          <img src="{{ pet.image }}" alt="Pet Image" style="max-width:200px; max-height:200px;">
+        </div>
+          <div>
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" value="{{ pet.location }}" class="readonly" readonly>
+          </div>
+          <div>
+            <label for="state">State</label>
+            <input type="text" id="state" name="state" value="{{ pet.state }}" class="readonly" readonly>
+          </div>
+      </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Application Details</legend>
+    <div class="row">
+      <div>
+        <label for="application-status">Status</label>
+        <input type="text" id="application-status" name="application_status" value="{{ application.status }}"
+          class="readonly" readonly>
+      </div>
+      <div>
+        <label for="application-notes">Notes</label>
+        <textarea id="application-notes" name="application_notes" class="readonly"
+          readonly>{{ application.notes }}</textarea>
+      </div>
+      <div>
+        <label for="reviewer-comments">Reviewer Comments</label>
+        <textarea id="reviewer-comments" name="reviewer_comments" placeholder="Add your comments here..."></textarea>
+      </div>
+      <div>
+        <label for="decision" class="req">Decision</label>
+        <select id="decision" name="decision" required>
+          <option value="">Select a decision</option>
+          <option value="review">Review</option>
+          <option value="approved">Approve</option>
+          <option value="rejected">Reject</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 1rem;">
+      <button type="submit" class="approve">Submit Review</button>
+      <button type="button" class="back" onclick="window.history.back();">Back</button>
+    </div>
+  </fieldset>
+</form>
+
+<script>
+  // Client-side validation
+  document.querySelector('form').addEventListener('submit', function (e) {
+    const decision = document.getElementById('decision').value;
+    if (!decision) {
+      e.preventDefault();
+      alert('Please select a decision before submitting.');
+    }
+  });
+</script>
+{% endblock %}

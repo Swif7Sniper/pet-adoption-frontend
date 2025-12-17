@@ -1,0 +1,140 @@
+
+{% extends "hiking/layout.html" %}
+{% block title %}Add Pet Listing{% endblock %}
+
+{% block content %}
+<h1>Add Pet Listing</h1>
+
+{# flash messages #}
+{% if messages %}
+  <ul class="messages">
+    {% for m in messages %}
+      <li class="message {{ m.tags }}">{{ m }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{# IMPORTANT: enctype for file uploads #}
+
+
+<form method="post" enctype="multipart/form-data" class="pet-form" >
+  {% csrf_token %}
+ 
+
+  {# non-field errors #}
+  {% if form.non_field_errors %}
+    <div class="errorlist nonfield">{{ form.non_field_errors }}</div>
+  {% endif %}
+
+  <div class="grid">
+
+    <div class="field">
+      {{ form.name.label_tag }} 
+      {{ form.name }}
+      {{ form.name.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.species.label_tag }}
+      {{ form.species }}
+      {{ form.species.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.breed.label_tag }}
+      {{ form.breed }}
+      {{ form.breed.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.sex.label_tag }}
+      {{ form.sex }}
+      {{ form.sex.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.age.label_tag }}
+      {{ form.age }}
+      {{ form.age.errors }}
+    </div>
+
+    <div class="field field--full">
+      {{ form.description.label_tag }}
+      {{ form.description }}
+      {{ form.description.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.adoption_fee.label_tag }}
+      {{ form.adoption_fee }}
+      {{ form.adoption_fee.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.suburb.label_tag }}
+      {{ form.suburb }}
+      {{ form.suburb.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.state.label_tag }}
+      {{ form.state }}
+      {{ form.state.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.status.label_tag }}
+      {{ form.status }}
+      {{ form.status.errors }}
+    </div>
+
+    <div class="field field--full">
+      {{ form.photo.label_tag }}
+      {{ form.photo }}
+      {{ form.photo.errors }}
+      <div style="margin-top:8px">
+        <img id="photoPreview" alt="Image preview" style="display:none; max-width:220px; max-height:220px;">
+      </div>
+    </div>
+
+  </div>
+
+  <button type="submit">Add Pet</button>
+</form>
+
+<style>
+  .pet-form { max-width: 920px; }
+  .grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
+  .field--full { grid-column: 1 / -1; }
+  .field label { display:block; font-weight:600; margin-bottom:6px; }
+  .field input, .field select, .field textarea {
+    width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;
+  }
+  .messages { list-style:none; padding:0; margin:10px 0; }
+  .messages .message { background:#f6f6f6; padding:8px 10px; border-radius:6px; margin-bottom:6px; }
+  .messages .success { background:#eaffea; }
+  .messages .error { background:#ffecec; }
+  .errorlist { color:#b00020; margin-top:6px; }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// hopefully this allows me to see the images
+const input = document.getElementById('id_photo');
+  const preview = document.getElementById('photoPreview');
+
+  if (input) {
+    input.addEventListener('change', function () {
+      const file = this.files && this.files[0];
+      if (!file) { preview.style.display = 'none'; return; }
+      const reader = new FileReader();
+      reader.onload = e => {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+</script>
+{% endblock %}

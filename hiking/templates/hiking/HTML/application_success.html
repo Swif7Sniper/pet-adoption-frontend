@@ -1,0 +1,12 @@
+{% extends "hiking/layout.html" %}
+
+{% block title %}Application Submitted{% endblock %}
+
+{% block content %}
+  <h1>Thank you!</h1>
+  <p>Your adoption application was submitted successfully. We’ll email you with updates.</p>
+  <p>
+    <a href="{% url 'hiking:my_applications' %}">View my applications</a> ·
+    <a href="{% url 'hiking:pet_list' %}">Browse more pets</a>
+  </p>
+{% endblock %}

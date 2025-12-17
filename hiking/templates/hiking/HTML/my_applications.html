@@ -1,0 +1,20 @@
+{% extends "hiking/layout.html" %}
+{% block title %}My Applications{% endblock %}
+
+{% block content %}
+<h1>My Applications</h1>
+
+{% if applications %}
+  <ul>
+    {% for a in applications %}
+      <li style="margin-bottom:.75rem;">
+        <strong>{{ a.animal.name }}</strong> — {{ a.animal.species }}
+        <br>Submitted: {{ a.application_date|date:"Y-m-d H:i" }}
+<br>Status: {{ a.get_decision_display }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>You have no adoption applications</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "hiking/layout.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="intro">
+  <!-- Cute picture of people with a newly adopted pet -->
+  <img src="{% static 'hiking/images/familywithpet.jpg' %}" alt="Happy family with their pet dog.">
+
+  <!-- slogan -->
+  <p> Helping pets find their forever home since 1999. </p>
+
+ 
+
+<a href="{% url 'hiking:pet_list' %}">
+  <button id="petSearchButton">Find Your Companion</button>
+</a>
+
+
+
+</div>
+
+<div class="missionStatement">
+  <p>
+    At Penny’s Pet Rescue, our mission is to give every animal the chance to find their forever home by creating
+    the perfect match between pet and person. We believe that every adoption should be built on understanding —
+    pairing each animal’s personality, needs, and quirks with a family’s lifestyle, environment, and heart.
+  </p>
+
+  <p>
+    Located at the heart of Parramatta CBD, we are easily accessible to suburbs around Western Sydney. 
+    We are grateful to partner with Pablo's Veterinary Services.
+  </p>
+
+  <!-- Picture of a cute pet -->
+  <img src="{% static 'hiking/Images/stockPenny.jpg' %}" alt="Penny with the pets.">
+</div>
+
+<!-- Main contact details -->
+<h2> Where we are </h2>
+<div class="contactDeets">
+  <p> <strong>Contact Details</strong> </p>
+  <p>
+    1111/560 Macquarie Street, Parramatta <br>
+    NSW 2150
+  </p>
+  <p><strong>Phone:</strong> 02 1234 345</p>
+</div>
+
+<div class="openingHours">
+  <p><strong>Opening Hours</strong></p>
+  <p><strong>Monday:</strong> 9:00am -- 3:00pm</p>
+  <p><strong>Tuesday:</strong> 9:00am -- 3:00pm</p>
+  <p><strong>Wednesday:</strong> 9:00am -- 3:00pm</p>
+  <p><strong>Thursday:</strong> 9:00am -- 8:00pm</p>
+  <p><strong>Friday:</strong> 9:00am -- 3:00pm</p>
+  <p><strong>Saturday:</strong> 9:00am -- 3:00pm</p>
+  <p><strong>Sunday:</strong> Closed</p>
+</div>
+
+<!-- Another picture -->
+<img src="{% static 'hiking/Images/happypupper.jpg' %}" alt="Happy pet with happy owner.">
+
+<!-- Sign Up section -->
+<div class="homePageSignup">
+  <form id="homePageSignup">
+    <div class="input-row">
+      <input type="text" id="fname" placeholder="First Name">
+      <input type="email" id="email" placeholder="Email">
+    </div>
+    <input type="submit" value="Sign up now">
+  </form>
+</div>
+
+<div class="signOff">
+  <div class="signOffInfo">
+    <p id="phoneNumBot"> <strong>02 1234 345</strong> </p>
+      <a href="{% url 'hiking:index' %}">
+
+      <img src="{% static 'hiking/Images/logo-horizontal-no-bg.png' %}" id="logoBot" 
+           alt="Penny's Pet Rescue Logo" width="170" height="75">
+    </a>
+  </div>
+
+  <!-- Ethical Statement -->
+  <p><strong>Ethical Statement</strong></p>
+  <p>
+    Ethics are at the forefront of our work. We collect only necessary information, in accordance with Australian
+    privacy laws, to support the adoption process, ensure responsible pet ownership, and keep you informed about our
+    rescue work. 
+  </p>
+
+  <!-- Acknowledgement of Country -->
+  <p><strong>Acknowledgement of Country</strong></p>
+  <p>
+    Penny’s Pet Rescue acknowledges the Traditional Custodians of the land on which we work and care for animals.
+    We pay our respects to Elders past and present, and we recognise the enduring connection of Aboriginal and
+    Torres Strait Islander peoples to land, waters, community, and all living creatures. 
+  </p>
+</div>
+
+<div class="footer">
+  <footer>
+    <p>This site is protected by Google's 
+      <a href="https://policies.google.com/privacy">Privacy Policy</a>.
+    </p>
+  </footer>
+</div>
+
+<!-- JS -->
+  <script src="{% static 'hiking/js/hannah.js' %}"> defer</script>
+    <script src="{% static 'hiking/js/hannah2.js' %}" defer></script>
+
+
+{% endblock %}

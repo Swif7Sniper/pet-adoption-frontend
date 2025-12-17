@@ -1,0 +1,16 @@
+{% extends 'hiking/base.html' %}
+
+{% block content %}
+
+<h2>Register your Account</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+  <button type="submit">Sign up</button>
+</form>
+
+{% if form.errors %}
+  <p style="color: red;">Re-enter please!.</p>
+{% endif %}
+{% endblock %}
